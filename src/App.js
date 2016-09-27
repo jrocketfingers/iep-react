@@ -1,35 +1,44 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 import Header from './components/Header';
 import Auctions from './components/Auctions';
 import Footer from './components/Footer';
 
-import { AUCTION_BID_AWAITING_CONFIRMATION, AUCTION_DEFAULT_STATE } from './constants';
-
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    this.serverRequest = $.get(this.props.source, { size: 1 }, function(result) {
+      this.setState({
+        auctions: result
+      });
+    }.bind(this), "json");
+  }
+
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+
   bid(auctionId) {
     console.log('bid auction ' + auctionId);
   }
 
   constructor() {
     super();
-    this.data = [
-      {id: 1, status: AUCTION_BID_AWAITING_CONFIRMATION, title: "Auction #1"},
-      {id: 2, status: AUCTION_DEFAULT_STATE, title: "Auction #2", bidder: 'OtherUser'},
-    ];
+
+    this.state = { auctions: [] };
 
     this.actions = [
       {name: "Bid", handler: this.bid}
-    ]
+    ];
   }
 
   render() {
     return (
       <div>
         <Header title="Illegal Penny Auctions" routes={[{url: '#', text: 'Home'}]}></Header>
-        <Auctions auctions={this.data} actions={this.actions}></Auctions>
+        <Auctions auctions={this.state.auctions} actions={this.actions}></Auctions>
         <Footer></Footer>
       </div>
     );

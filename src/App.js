@@ -9,7 +9,7 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    this.serverRequest = $.get(this.props.source, { size: 1 }, function(result) {
+    this.serverRequest = $.get(this.props.source, function(result) {
       this.setState({
         auctions: result
       });

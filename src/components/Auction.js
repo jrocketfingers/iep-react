@@ -10,7 +10,7 @@ class Auction extends Component {
       <div className="col s12 m6 l3">
         <div className="card">
           <div className="card-image">
-            <img src="http://placehold.it/350x350"></img>
+            <img src="http://placehold.it/350x350" alt="placeholder"></img>
             <span className="card-title">{this.props.auction.title}</span>
           </div>
           <div className="card-content">
